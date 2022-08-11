@@ -4,7 +4,7 @@ import Cards from '../components/Cards'
 function User() {
   return (
     <div>
-        <Cards/>
+        <Cards cards={false}/>
     </div>
   )
 }

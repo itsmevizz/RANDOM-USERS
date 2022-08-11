@@ -4,16 +4,16 @@ import { setUser } from "../Redux/Features/singleUser";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
-import { motion } from "framer-motion";
-
 function Cards(props) {
   const { user } = useSelector((state) => ({ ...state.single }));
   const Navigation = useNavigate();
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
   useEffect(() => {
-    !user && Navigation("/");
-  }, [active]);
+    if (!props.cards) {
+      !user && Navigation("/");
+    }
+  }, [Navigation, active, props.cards, user]);
 
   const singleUser = (data) => {
     dispatch(setUser(data));
@@ -44,10 +44,12 @@ function Cards(props) {
     <div className="">
       <div
         className={`${
-          props.cards ? "h-[350px]" : "h-auto mt-[10%]"
-        } w-[600px]  mt-5 border-2 bg-white shadow-lg m-auto hover:shadow-2xl cursor-pointer`}
+          props.cards ? "h-[350px] mt-5 " : "h-auto mt-28"
+        } w-[600px]  border-2 bg-white shadow-lg m-auto hover:shadow-2xl cursor-pointer`}
         onClick={() => {
-          props.cards ? singleUser(props.users) : console.log("Nop");
+          if (props.cards) {
+            singleUser(props.users);
+          }
         }}
       >
         {props.cards ? (
@@ -126,14 +128,14 @@ function Cards(props) {
             <ul className="flex justify-center mt-5 h-20 overflow-hidden">
               {icons.map((item, index) => {
                 return (
-                  <motion.img
+                  <img
                     src={index === active ? item.active : item.img}
                     key={index}
                     onMouseOver={() => setActive(index)}
-                    className="w-10 mr-7 h-12 cursor-pointer duration-200"
+                    className={`w-10 mr-7 h-12 cursor-pointer duration-300 ${
+                      index === active ? "h-[51px] w-20" : ""
+                    }`}
                     alt=""
-                    initial={{ y: -50 }}
-                    animate={{ y: 0 }}
                   />
                 );
               })}

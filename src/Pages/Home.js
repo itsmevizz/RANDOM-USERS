@@ -8,8 +8,6 @@ function Home() {
   const [page, setPage] = useState(1);
   const scrollRef = useRef();
   const dispatch = useDispatch();
-  // const query = new URLSearchParams(window.location.search);
-  // const channelId = query.get("id");
   useEffect(() => {
     dispatch(getUsers(page));
     document.title = "Home";
@@ -34,6 +32,7 @@ function Home() {
                 index++;
                 return (
                   <li
+                    key={index}
                     className={`m-2 border-2 text-center rounded-2xl w-7 h-auto hover:bg-slate-100 ${
                       index === page ? "bg-slate-500 bg-opacity-50" : ""
                     }`}
